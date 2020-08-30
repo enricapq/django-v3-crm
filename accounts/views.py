@@ -30,7 +30,7 @@ def registerPage(request):
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
-    
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -51,6 +51,7 @@ def logoutUser(request):
     logout(request)
     return redirect('login')
 
+
 @login_required(login_url='login')
 def home(request):
     orders = Order.objects.all()
@@ -69,6 +70,11 @@ def home(request):
                }
 
     return render(request, 'accounts/dashboard.html', context)
+
+
+def userPage(request):
+    context = {}
+    return render(request, 'accounts/user.html', context)
 
 
 @login_required(login_url='login')
