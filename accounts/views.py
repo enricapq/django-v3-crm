@@ -1,9 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from .models import *
 from .forms import OrderForm, CreateUserForm, CustomerForm
@@ -19,16 +17,6 @@ def registerPage(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-
-            # when created, add to customer group
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)
-
-            # create customer when user is registered
-            Customer.objects.create(
-                user=user,
-                name=user.username
-            )
 
             messages.success(request, 'Account was created for ' + username)
 
