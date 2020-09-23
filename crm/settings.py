@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # with signals instead of only accounts add accounts.apps.AccountsConfig
     'accounts.apps.AccountsConfig',
     'django_filters',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +83,27 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# AWS RDS
+
+# For connection Timeout error:
+# - in "Security group rules" (under "Connectivity & security")
+# - select "default" Security group
+# - click "Actions" > "Edit inbound rules" > "Add rule"
+# - Select... Type: "All traffic", Source eg: "My IP", then "Save rules"
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'database-3.xyzxyzxyz.us-east-2.rds.amazonaws.com',
+#         'USER':'database user',
+#         'PASSWORD':'database password',
+#         'HOST':'database endpoint',
+#         'PORT':'database port'
+#     }
+# }
+
+
 
 
 # Password validation
@@ -139,3 +161,18 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '***********'
 # Gmail App password https://support.google.com/accounts/answer/185833
 EMAIL_HOST_PASSWORD = '***********'
+
+
+# AWS S3 BUCKETS CONFIG
+AWS_ACCESS_KEY_ID = '*****************'
+AWS_SECRET_ACCESS_KEY = '*****************'
+AWS_STORAGE_BUCKET_NAME = '*****************'
+
+# https://django-storages.readthedocs.io/
+AWS_S3_FILE_OVERWRITE = True
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# override default storage
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_HOST = "s3.eu-west-2.amazonaws.com"
+AWS_S3_REGION_NAME="eu-west-2"
